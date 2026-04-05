@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="vi"><head><%- include('partials-head', { title: 'DUONG MART PRO' }) %></head><body>
+<div class="top-strip"><div class="container"><%= marketing?.top_banner || '' %></div></div>
+<%- include('partials-nav') %>
+<div class="container">
+  <div class="hero">
+    <div class="card">
+      <div class="badge"><%= marketing?.hero_badge || '' %></div>
+      <h1><%= marketing?.hero_title || '' %></h1>
+      <p class="muted"><%= marketing?.hero_description || '' %></p>
+      <div class="cta-row">
+        <a class="btn" href="<%= marketing?.cta1_link || '/register?role=seller' %>"><%= marketing?.cta1_text || 'Đăng ký seller' %></a>
+        <a class="btn-outline" href="<%= marketing?.cta2_link || '/login' %>"><%= marketing?.cta2_text || 'Đăng nhập' %></a>
+      </div>
+      <div class="flash small muted" style="margin-top:16px;">Hàng thật, giá thật · Hỗ trợ seller mới · Có flash sale mỗi ngày</div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:28px;margin-top:0;">Điểm nổi bật</h3>
+      <ul class="highlights muted">
+        <li><%= marketing?.highlight_1 || '' %></li>
+        <li><%= marketing?.highlight_2 || '' %></li>
+        <li><%= marketing?.highlight_3 || '' %></li>
+        <li><%= marketing?.highlight_4 || '' %></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="banner-grid">
+    <% ['hero_left','hero_right','mid_home'].forEach(slot => { const b = banners?.[slot]; %>
+      <div class="card banner-box">
+        <% if (b && b.image_url) { %><img src="<%= b.image_url %>" alt="<%= b.title %>" /><% } else { %><div style="height:170px;background:#eef3ff;border-radius:14px;"></div><% } %>
+        <div style="margin-top:10px;font-weight:700;"><%= b?.title || slot %></div>
+        <div class="small muted"><%= b?.link_url || '/' %></div>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="flash">
+    <div class="toolbar"><h2 class="section-title">🔥 <%= flash?.title || 'Flash Sale' %></h2><div class="muted"><%= flash?.description || '' %></div></div>
+    <div class="grid-products">
+      <% flashProducts.forEach(p => { %>
+        <div class="product-card">
+          <img src="<%= p.image_url || 'https://via.placeholder.com/800x500?text=No+Image' %>" alt="<%= p.name %>" style="height:210px;object-fit:cover;width:100%;" />
+          <div class="content">
+            <div style="font-weight:700;min-height:48px;"><%= p.name %></div>
+            <div class="small muted"><%= p.seller_name || '' %></div>
+            <div style="margin:8px 0;"><span class="price"><%= formatMoney(p.sale_price || p.price) %></span> <% if (p.sale_price) { %><span class="old"><%= formatMoney(p.price) %></span><% } %></div>
+            <form method="post" action="/cart/add/<%= p.id %>"><button class="btn" type="submit">Thêm vào giỏ</button></form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="toolbar"><h2 class="section-title">Sản phẩm nổi bật</h2><a href="/cart" class="btn-outline">Xem giỏ hàng</a></div>
+  <div class="grid-products">
+    <% featuredProducts.forEach(p => { %>
+      <div class="product-card">
+        <img src="<%= p.image_url || 'https://via.placeholder.com/800x500?text=No+Image' %>" alt="<%= p.name %>" style="height:210px;object-fit:cover;width:100%;" />
+        <div class="content">
+          <div style="font-weight:700;min-height:48px;"><%= p.name %></div>
+          <div class="small muted"><%= p.seller_name || '' %></div>
+          <div style="margin:8px 0;"><span class="price"><%= formatMoney(p.sale_price || p.price) %></span> <% if (p.sale_price) { %><span class="old"><%= formatMoney(p.price) %></span><% } %></div>
+          <form method="post" action="/cart/add/<%= p.id %>"><button class="btn" type="submit">Thêm vào giỏ</button></form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+  <div class="footer small">© DUONG MART PRO · Full Redeploy Admin CMS</div>
+</div>
+</body></html>
