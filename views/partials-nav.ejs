@@ -1,0 +1,24 @@
+<div class="nav">
+  <div class="container inner">
+    <a class="brand" href="/">DUONG MART PRO</a>
+    <div class="menu">
+      <a href="/">Trang chủ</a>
+      <% if (currentUser && currentUser.role === 'admin') { %>
+        <a href="/admin">Admin</a>
+        <a href="/admin/products">Quản lý sản phẩm</a>
+        <a href="/admin/marketing">Marketing</a>
+        <a href="/admin/flashsale">Flash Sale</a>
+        <a href="/admin/banners">Banner quảng cáo</a>
+      <% } %>
+      <% if (currentUser && currentUser.role === 'seller') { %>
+        <a href="/seller/products">Seller</a>
+      <% } %>
+      <% if (currentUser) { %>
+        <a class="pill" href="/logout">Đăng xuất</a>
+      <% } else { %>
+        <a href="/login">Đăng nhập</a>
+        <a href="/register">Đăng ký</a>
+      <% } %>
+    </div>
+  </div>
+</div>
