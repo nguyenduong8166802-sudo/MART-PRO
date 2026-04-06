@@ -1,0 +1,16 @@
+<%- include('partials/header') %>
+<div class="panel" style="max-width:760px;margin:20px auto;text-align:center;padding:30px;">
+  <div style="font-size:48px;">🧾</div>
+  <h2>Đơn hàng đã được ghi nhận</h2>
+  <p>Mã đơn của bạn: <strong>#<%= orderId %></strong></p>
+  <div class="panel" style="text-align:left;margin-top:18px;">
+    <div style="display:flex;justify-content:space-between;margin:8px 0;"><span>Tiền hàng tạm tính</span><strong><%= Number(itemsTotal).toLocaleString('vi-VN') %>đ</strong></div>
+    <div style="display:flex;justify-content:space-between;margin:8px 0;"><span>Phí ship</span><strong>Shop xác nhận sau</strong></div>
+    <div style="display:flex;justify-content:space-between;margin:8px 0;"><span>Loại ship</span><strong><%= shippingMethod === 'city' ? 'Nội thành' : 'Toàn quốc' %></strong></div>
+  </div>
+  <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+    <a class="btn primary" href="/">Quay lại trang chủ</a>
+    <a class="btn secondary" href="/my-orders">Xem đơn của tôi</a>
+  </div>
+</div>
+<%- include('partials/footer') %>
