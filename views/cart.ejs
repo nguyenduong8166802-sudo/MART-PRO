@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+<section class="section-head"><h2>Giỏ hàng</h2></section>
+<div class="cart-list">
+  <% if (cart.length === 0) { %><div class="panel">Giỏ hàng đang trống.</div><% } %>
+  <% cart.forEach(item => { %>
+    <div class="cart-item card">
+      <img src="<%= item.image_url %>" alt="<%= item.name %>">
+      <div class="cart-info">
+        <h3><%= item.name %></h3>
+        <div class="price"><%= Number(item.price).toLocaleString('vi-VN') %>đ</div>
+        <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <form method="post" action="/cart/decrease/<%= item.product_id %>"><button class="btn small" type="submit">-</button></form>
+          <strong style="min-width:56px;text-align:center;">SL: <%= item.quantity %></strong>
+          <form method="post" action="/cart/increase/<%= item.product_id %>"><button class="btn small" type="submit">+</button></form>
+        </div>
+        <div class="muted" style="margin-top:10px;">Thành tiền: <strong><%= (Number(item.price) * Number(item.quantity)).toLocaleString('vi-VN') %>đ</strong></div>
+      </div>
+      <form method="post" action="/cart/remove/<%= item.product_id %>"><button class="btn danger">Xóa</button></form>
+    </div>
+  <% }) %>
+</div>
+<div class="cart-total panel" style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;">
+  <div>
+    <div><strong>Tổng tiền hàng tạm tính: <%= Number(subtotal || total).toLocaleString('vi-VN') %>đ</strong></div>
+    <div class="muted" style="margin-top:6px;">Phí ship sẽ được admin xác nhận sau theo từng khu vực giao hàng.</div>
+  </div>
+  <% if (cart.length > 0) { %><a class="btn primary" href="/checkout">Tiến hành đặt hàng</a><% } %>
+</div>
+<%- include('partials/footer') %>

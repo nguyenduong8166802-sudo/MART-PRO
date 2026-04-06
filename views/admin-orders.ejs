@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+<h2>Quản lý đơn hàng + Ship thủ công</h2>
+<div class="table-wrap">
+<table>
+<tr><th>ID</th><th>Khách</th><th>Loại ship</th><th>Tiền hàng</th><th>Phí ship</th><th>Tổng</th><th>Trạng thái</th><th>Cập nhật</th></tr>
+<% orders.forEach(o => { %>
+<tr>
+  <td>#<%= o.id %></td>
+  <td>
+    <strong><%= o.customer_name %></strong><br>
+    <span><%= o.phone %></span><br>
+    <span class="muted"><%= o.address %></span>
+  </td>
+  <td><%= o.shipping_method === 'city' ? 'Nội thành' : 'Toàn quốc' %></td>
+  <td><%= Number(o.items_total || o.total).toLocaleString('vi-VN') %>đ</td>
+  <td><%= Number(o.shipping_fee || 0).toLocaleString('vi-VN') %>đ</td>
+  <td><%= Number((o.confirmed_total && o.confirmed_total > 0) ? o.confirmed_total : o.total).toLocaleString('vi-VN') %>đ</td>
+  <td><%= o.status %></td>
+  <td>
+    <form method="post" action="/admin/orders/<%= o.id %>/update" class="admin-order-form">
+      <input name="shipping_fee" placeholder="Phí ship" value="<%= Number(o.shipping_fee || 0) %>">
+      <select name="status">
+        <option value="new" <%= o.status === 'new' ? 'selected' : '' %>>new</option>
+        <option value="confirmed" <%= o.status === 'confirmed' ? 'selected' : '' %>>confirmed</option>
+        <option value="shipping" <%= o.status === 'shipping' ? 'selected' : '' %>>shipping</option>
+        <option value="done" <%= o.status === 'done' ? 'selected' : '' %>>done</option>
+        <option value="cancelled" <%= o.status === 'cancelled' ? 'selected' : '' %>>cancelled</option>
+      </select>
+      <button class="btn small">Lưu</button>
+    </form>
+  </td>
+</tr>
+<% }) %>
+</table>
+</div>
+<%- include('partials/footer') %>

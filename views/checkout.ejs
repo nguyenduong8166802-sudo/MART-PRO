@@ -1,0 +1,39 @@
+<%- include('partials/header') %>
+<section class="section-head"><h2>Thanh toán / Đặt hàng COD</h2></section>
+<div style="display:grid;grid-template-columns:1.15fr 0.85fr;gap:18px;">
+  <div class="panel">
+    <% if (error) { %><div class="error"><%= error %></div><% } %>
+    <form method="post" class="form-grid">
+      <input name="customer_name" placeholder="Họ tên khách" value="<%= form?.customer_name || '' %>">
+      <input name="phone" placeholder="Số điện thoại" value="<%= form?.phone || '' %>">
+      <textarea name="address" placeholder="Địa chỉ nhận hàng"><%= form?.address || '' %></textarea>
+      <textarea name="note" placeholder="Ghi chú đơn hàng"><%= form?.note || '' %></textarea>
+      <input name="coupon_code" placeholder="Mã giảm giá (GIAM10 / FREESHIP)" value="<%= form?.coupon_code || '' %>">
+
+      <div class="panel" style="grid-column:1/-1;">
+        <strong>Hình thức giao hàng</strong>
+        <label class="ship-option"><input type="radio" name="shipping_method" value="city" <%= (!form?.shipping_method || form?.shipping_method === 'city') ? 'checked' : '' %>> 🚀 Nội thành (Ahamove/Grab) — shop sẽ báo phí ship sau</label>
+        <label class="ship-option"><input type="radio" name="shipping_method" value="nationwide" <%= form?.shipping_method === 'nationwide' ? 'checked' : '' %>> 📦 Toàn quốc (GHN/GHTK) — đông lạnh, phí ship tính riêng</label>
+      </div>
+
+      <button class="btn primary" style="grid-column:1/-1;">Xác nhận đặt hàng</button>
+    </form>
+  </div>
+  <div class="panel">
+    <h3 style="margin-top:0;">Tóm tắt đơn hàng</h3>
+    <% cart.forEach(item => { %>
+      <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #ececec;">
+        <div><strong><%= item.name %></strong><div class="muted">SL: <%= item.quantity %></div></div>
+        <div><%= (Number(item.price) * Number(item.quantity)).toLocaleString('vi-VN') %>đ</div>
+      </div>
+    <% }) %>
+    <div style="padding:12px 0 4px;">
+      <div style="display:flex;justify-content:space-between;margin:8px 0;"><span>Tạm tính</span><strong><%= Number(summary.subtotal).toLocaleString('vi-VN') %>đ</strong></div>
+      <div style="display:flex;justify-content:space-between;margin:8px 0;"><span>Phí ship</span><strong>Admin xác nhận sau</strong></div>
+      <div style="display:flex;justify-content:space-between;margin:8px 0;"><span>Giảm giá dự kiến</span><strong>-<%= Number(summary.discount).toLocaleString('vi-VN') %>đ</strong></div>
+      <div style="display:flex;justify-content:space-between;margin:14px 0 0;font-size:22px;"><span><strong>Tổng tiền tạm tính</strong></span><strong style="color:#ee4d2d;"><%= Number(summary.subtotal - summary.discount).toLocaleString('vi-VN') %>đ</strong></div>
+    </div>
+    <div class="muted" style="margin-top:12px;">Shop sẽ nhập phí ship thủ công rồi xác nhận tổng tiền cuối cùng cho bạn.</div>
+  </div>
+</div>
+<%- include('partials/footer') %>
