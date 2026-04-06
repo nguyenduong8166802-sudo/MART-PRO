@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+<h2>Seller thêm món ăn</h2>
+<div class="panel">
+  <form method="post" action="/seller/products" class="form-grid">
+    <select name="category_id"><% categories.forEach(c => { %><option value="<%= c.id %>"><%= c.name %></option><% }) %></select>
+    <input name="name" placeholder="Tên sản phẩm">
+    <input name="price" placeholder="Giá gốc">
+    <input name="sale_price" placeholder="Giá sale">
+    <input name="stock" placeholder="Tồn kho">
+    <input name="image_url" placeholder="Link ảnh món ăn">
+    <input name="short_desc" placeholder="Mô tả ngắn">
+    <input name="storage_note" placeholder="Ghi chú bảo quản">
+    <label><input type="checkbox" name="is_combo"> Combo</label>
+    <label><input type="checkbox" name="is_featured"> Nổi bật</label>
+    <label><input type="checkbox" name="is_active" checked> Hiển thị</label>
+    <button class="btn primary">Thêm sản phẩm</button>
+  </form>
+</div>
+<div class="table-wrap">
+<table>
+<tr><th>ID</th><th>Tên</th><th>Giá</th><th>Tồn</th></tr>
+<% products.forEach(p => { %>
+<tr><td><%= p.id %></td><td><%= p.name %></td><td><%= Number(p.sale_price || p.price).toLocaleString('vi-VN') %>đ</td><td><%= p.stock %></td></tr>
+<% }) %>
+</table>
+</div>
+<%- include('partials/footer') %>
